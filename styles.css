@@ -234,3 +234,71 @@ footer {
 
 
 }
+.button{
+    transition:.3s;
+    font-weight:600;
+}
+
+.button:hover{
+    transform:translateY(-2px);
+}
+.releases{
+    padding:80px 10%;
+    background:#f4f3ef;
+}
+
+.release-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+    margin-top:40px;
+}
+.release{
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:35px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+    border-left:6px solid #c89a2b;
+
+}
+
+.release:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.release span{
+
+    display:block;
+
+    margin:15px 0 25px;
+
+    color:#666;
+
+}
+.small{
+
+    padding:10px 20px;
+
+    font-size:.9rem;
+
+}
+.card{
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+}
