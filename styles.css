@@ -300,3 +300,8 @@ footer {
     transform:translateY(-5px);
 
 }
+.small-hero{
+
+    min-height:45vh;
+
+}
