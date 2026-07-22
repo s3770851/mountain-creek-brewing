@@ -1,1 +1,142 @@
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Reserve Your Fresh Wort | Mountain Creek Brewing Co.</title>
+
+<meta name="description" content="Reserve premium fresh wort from Mountain Creek Brewing Co.">
+
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+<header>
+
+<nav>
+
+<div class="logo">
+    <img src="images/logo2.png" alt="Mountain Creek Brewing Co.">
+</div>
+
+<div class="menu">
+
+<a href="index.html">Home</a>
+<a href="index.html#releases">Current Releases</a>
+<a href="wort-kits.html">Fresh Wort Kits</a>
+<a href="index.html#about">About</a>
+
+</div>
+
+</nav>
+
+</header>
+
+<section class="hero small-hero">
+
+<div class="hero-content">
+
+<h1>Reserve Your Fresh Wort</h1>
+
+<p>
+Complete the form below and we'll reserve your next brew.
+</p>
+
+</div>
+
+</section>
+
+<section class="content">
+
+<form id="reservationForm">
+
+<label>Beer</label>
+
+<select id="beer" name="beer">
+
+<option>Mountain IPA</option>
+<option>Pelican Pilsner</option>
+<option>Black IPA</option>
+
+</select>
+
+<label>Quantity</label>
+
+<select name="quantity">
+
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+
+</select>
+
+<label>Your Name</label>
+
+<input type="text" name="name" required>
+
+<label>Email</label>
+
+<input type="email" name="email" required>
+
+<label>Phone</label>
+
+<input type="tel" name="phone">
+
+<label>Preferred Collection Date</label>
+
+<input type="date" name="collection">
+
+<label>Additional Notes</label>
+
+<textarea name="notes"></textarea>
+
+<button class="button" type="submit">
+
+Reserve My Fresh Wort
+
+</button>
+
+</form>
+
+</section>
+
+<footer>
+
+<h3>Mountain Creek Brewing Co.</h3>
+
+<p>
+Independent craft brewery producing premium fresh wort on the Sunshine Coast.
+</p>
+
+<p>
+© 2026 Mountain Creek Brewing Co.
+</p>
+
+</footer>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+
+const beer = params.get("beer");
+
+if(beer){
+
+document.getElementById("beer").value = beer;
+
+}
+
+</script>
+
+</body>
+
+</html>
