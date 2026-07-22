@@ -326,3 +326,38 @@ footer {
     min-height:45vh;
 
 }
+form{
+    max-width:700px;
+    margin:auto;
+}
+
+form label{
+    display:block;
+    margin-top:25px;
+    font-weight:700;
+    color:#23432f;
+}
+
+form input,
+form select,
+form textarea{
+
+    width:100%;
+    padding:14px;
+    margin-top:8px;
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+
+    font-family:inherit;
+
+    font-size:1rem;
+
+}
+
+form textarea{
+
+    min-height:140px;
+
+}
