@@ -12,13 +12,14 @@ body {
     line-height: 1.6;
 }
 
+
 /* Header */
 
-header{
-    position:absolute;
-    width:100%;
-    background:rgba(20,35,25,.45);
-    backdrop-filter:blur(8px);
+header {
+    background: #ffffff;
+    padding: 12px 8%;
+    border-bottom: 1px solid #e6e6e6;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 nav {
     display: flex;
@@ -27,19 +28,23 @@ nav {
     min-height: 90px;
 }
 .logo img {
-    width: 140px;
+    width: 150px;
     height: auto;
     display: block;
 }
 
 
 .menu a {
-    color: white;
+    color: #23432f;
     text-decoration: none;
     margin-left: 25px;
+    font-weight: 600;
+    transition: color 0.3s ease;
 }
 
-
+.menu a:hover {
+    color: #c89a2b;
+}
 .menu a:hover {
     opacity: 0.8;
 }
