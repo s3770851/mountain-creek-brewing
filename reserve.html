@@ -122,20 +122,62 @@ Independent craft brewery producing premium fresh wort on the Sunshine Coast.
 </p>
 
 </footer>
-
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 
 const params = new URLSearchParams(window.location.search);
-
 const beer = params.get("beer");
 
-if(beer){
-
-document.getElementById("beer").value = beer;
-
+if (beer) {
+    document.getElementById("beer").value = beer;
 }
 
-</script>
+// Initialise EmailJS
+emailjs.init({
+    publicKey: "67GtfWCTz5to7lMzO"
+});
+
+document.getElementById("reservationForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    emailjs.send("service_z72i7ph", "template_f0050xj", {
+
+        beer: document.getElementById("beer").value,
+
+        quantity: document.querySelector("[name='quantity']").value,
+
+        name: document.querySelector("[name='name']").value,
+
+        email: document.querySelector("[name='email']").value,
+
+        phone: document.querySelector("[name='phone']").value,
+
+        collection: document.querySelector("[name='collection']").value,
+
+        notes: document.querySelector("[name='notes']").value
+
+    })
+
+    .then(function() {
+
+        alert("✅ Thank you! Your Fresh Wort reservation has been received. We'll contact you shortly.");
+
+        document.getElementById("reservationForm").reset();
+
+    })
+
+    .catch(function(error) {
+
+        alert("Sorry, something went wrong. Please try again.");
+
+        console.error(error);
+
+    });
+
+});
+
+</script>    
 
 </body>
 
