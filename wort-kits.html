@@ -19,18 +19,22 @@
 <body>
 
 <header>
-
 <nav>
 
 <div class="logo">
     <img src="images/logo2.png" alt="Mountain Creek Brewing Co. Logo">
 </div>
 
-<div class="menu">
+<div class="menu-toggle" id="mobile-menu">
+    ☰
+</div>
+
+<div class="menu" id="nav-menu">
     <a href="index.html">Home</a>
     <a href="index.html#releases">Current Releases</a>
     <a href="wort-kits.html">Fresh Wort Kits</a>
     <a href="index.html#about">About</a>
+    <a href="reserve.html">Reserve</a>
 </div>
 
 </nav>
@@ -429,7 +433,14 @@ How It Works
     </p>
 
 </footer>
+<script>
+const menuToggle = document.getElementById("mobile-menu");
+const navMenu = document.getElementById("nav-menu");
 
+menuToggle.addEventListener("click", () => {
+    navMenu.classList.toggle("active");
+});
+</script>
 </body>
 
 </html>
