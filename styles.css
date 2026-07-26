@@ -52,8 +52,11 @@ nav{
 .menu-toggle{
     display:none;
     font-size:2rem;
+    font-weight:400;
+    line-height:1;
     cursor:pointer;
     color:#23432f;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 /* Hero */
@@ -387,29 +390,4 @@ form textarea{
 .stout{
     border-left-color:#111111;
 }
-/* ---------- About Page ---------- 
 
-.section.alt{
-    background:#f5f5f5;
-}
-
-.section-intro{
-    max-width:900px;
-    margin:0 auto;
-    text-align:center;
-    line-height:1.9;
-    font-size:1.1rem;
-    color:#555;
-}
-
-.section h2{
-    text-align:center;
-    margin-bottom:30px;
-}
-
-.section p{
-    max-width:900px;
-    margin:0 auto 25px;
-    line-height:1.8;
-}
-*/
