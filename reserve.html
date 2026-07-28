@@ -96,6 +96,29 @@ Complete the form below and we'll reserve your next brew.
 <option value="6">6</option>
 
 </select>
+<div class="card" style="margin-top:30px;">
+
+<h3>Order Summary</h3>
+
+<p><strong>Selected Wort:</strong>
+<span id="summaryBeer">None Selected</span></p>
+
+<p><strong>Quantity:</strong>
+<span id="summaryQty">0</span></p>
+
+<p><strong>Unit Price:</strong>
+<span id="summaryUnit">$0.00</span></p>
+
+<hr>
+
+<h2 style="color:#184D47; margin-top:20px;">
+
+Total:
+<span id="summaryTotal">$0.00</span>
+
+</h2>
+
+</div>
 <label>Total Price</label>
 
 <input
@@ -212,41 +235,52 @@ menuToggle.addEventListener("click", () => {
 });
 </script>
 <script>
-function updatePrice() {
 
-    const beer = document.getElementById("beer").value;
-    const quantity = parseInt(document.getElementById("quantity").value) || 0;
+function updatePrice(){
 
-    let unitPrice = 0;
+    const beer=document.getElementById("beer").value;
+    const quantity=parseInt(document.getElementById("quantity").value)||0;
 
-    switch (beer) {
+    let unitPrice=0;
+
+    switch(beer){
 
         case "Mountain IPA":
         case "Goat's Guts Black IPA":
-            unitPrice = 60;
+            unitPrice=60;
             break;
 
         case "North Coast Lager":
         case "Pelican Pilsner":
         case "Coastline Pale Ale":
-            unitPrice = 50;
+        case "Irish Dry Stout":
+            unitPrice=50;
             break;
 
         default:
-            unitPrice = 0;
+            unitPrice=0;
     }
 
-    const total = unitPrice * quantity;
+    const total=unitPrice*quantity;
 
-    document.getElementById("price").value =
+    document.getElementById("summaryBeer").textContent =
+        beer || "None Selected";
+
+    document.getElementById("summaryQty").textContent =
+        quantity;
+
+    document.getElementById("summaryUnit").textContent =
+        "$" + unitPrice.toFixed(2);
+
+    document.getElementById("summaryTotal").textContent =
         "$" + total.toFixed(2);
+
 }
 
-document.getElementById("beer").addEventListener("change", updatePrice);
-document.getElementById("quantity").addEventListener("change", updatePrice);
+document.addEventListener("DOMContentLoaded", updatePrice);
 
-updatePrice();
 </script>
+
 </body>
 
 </html>
