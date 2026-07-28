@@ -207,14 +207,16 @@ document.getElementById("reservationForm").addEventListener("submit", function(e
 
     })
 
+
     .then(function() {
 
-        alert("✅ Thank you! Your Fresh Wort reservation has been received. We'll contact you shortly.");
+    alert("✅ Thank you! Your Fresh Wort reservation has been received. We'll contact you shortly.");
 
-        document.getElementById("reservationForm").reset();
+    document.getElementById("reservationForm").reset();
 
-    })
+    updatePrice();
 
+})
     .catch(function(error) {
 
         alert("Sorry, something went wrong. Please try again.");
