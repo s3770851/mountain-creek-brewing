@@ -19,10 +19,13 @@ header{
     background:#fff;
     border-bottom:1px solid #e8e8e8;
     box-shadow:0 2px 8px rgba(0,0,0,.05);
-    padding:8px 8%;
+    padding:8px 0;
 }
 
 nav{
+    max-width:1200px;
+    margin:0 auto;
+    padding:0 8%;
     display:flex;
     justify-content:space-between;
     align-items:center;
