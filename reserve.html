@@ -62,27 +62,47 @@ Complete the form below and we'll reserve your next brew.
 
 <label>Beer</label>
 
-<select id="beer" name="beer">
+<label for="beer">Select Wort Kit</label>
 
-<option>Mountain IPA</option>
-<option>Pelican Pilsner</option>
-<option>Black IPA</option>
-<option>Coastline Lager</option>
-<option>Irish Stout</option>
-<option>Pale Ale</option>
+<select id="beer" name="beer" required onchange="updatePrice()">
+
+<option value="">-- Select a Wort Kit --</option>
+
+<option value="North Coast Lager">North Coast Lager</option>
+
+<option value="Pelican Pilsner">Pelican Pilsner</option>
+
+<option value="Mountain IPA">Mountain IPA</option>
+
+<option value="Coastline Pale Ale">Coastline Pale Ale</option>
+
+<option value="Goat's Guts Black IPA">Goat's Guts Black IPA</option>
+
+<option value="Irish Dry Stout">Irish Dry Stout</option>
 
 </select>
 
 <label>Quantity</label>
 
-<select name="quantity">
+<label for="quantity">Quantity</label>
 
-<option>1</option>
-<option>2</option>
-<option>3</option>
-<option>4</option>
+<select id="quantity" name="quantity" required onchange="updatePrice()">
+
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
 
 </select>
+<label>Total Price</label>
+
+<input
+    type="text"
+    id="price"
+    readonly
+    value="$0.00">
 
 <label>Your Name</label>
 
@@ -190,6 +210,42 @@ const navMenu = document.getElementById("nav-menu");
 menuToggle.addEventListener("click", () => {
     navMenu.classList.toggle("active");
 });
+</script>
+<script>
+function updatePrice() {
+
+    const beer = document.getElementById("beer").value;
+    const quantity = parseInt(document.getElementById("quantity").value) || 0;
+
+    let unitPrice = 0;
+
+    switch (beer) {
+
+        case "Mountain IPA":
+        case "Goat's Guts Black IPA":
+            unitPrice = 60;
+            break;
+
+        case "North Coast Lager":
+        case "Pelican Pilsner":
+        case "Coastline Pale Ale":
+            unitPrice = 50;
+            break;
+
+        default:
+            unitPrice = 0;
+    }
+
+    const total = unitPrice * quantity;
+
+    document.getElementById("price").value =
+        "$" + total.toFixed(2);
+}
+
+document.getElementById("beer").addEventListener("change", updatePrice);
+document.getElementById("quantity").addEventListener("change", updatePrice);
+
+updatePrice();
 </script>
 </body>
 
