@@ -203,8 +203,10 @@ footer {
 
 /* Mobile */
 
-@media (max-width:850px){
-
+@media (max-width:850px)
+.logo img{
+    width:140px;
+}
     nav{
         flex-wrap:wrap;
     }
