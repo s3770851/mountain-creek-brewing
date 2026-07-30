@@ -183,7 +183,20 @@ nav{
 
 }
 
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 35px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 10% 60px;
+}
 
+.cards .button {
+    width: 100%;
+    text-align: center;
+    margin-top: -10px;
+}
 
 /* Footer */
 
