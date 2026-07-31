@@ -192,7 +192,12 @@ nav{
     padding: 20px 10% 60px;
 }
 
-
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:30px;
+    margin-top:30px;
+}
 
 /* Footer */
 
