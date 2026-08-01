@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{BEER_NAME}} | Brewing Guide | Mountain Creek Brewing Co.</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header><nav>
+<div class="logo"><img src="../images/logo3.png" alt="Mountain Creek Brewing Co."></div>
+<div class="menu-toggle" id="mobile-menu">☰</div>
+<div class="menu" id="nav-menu">
+<a href="../index.html">Home</a>
+<a href="../wort-kits.html">Premium Fresh Wort Kits</a>
+<a href="../about.html">About</a>
+<a href="../reserve.html">Reserve</a>
+</div></nav></header>
+
+<section class="hero small-hero"><div class="hero-content">
+<h1>{{BEER_NAME}}</h1>
+<h2>{{STYLE}}</h2>
+<p>{{VOLUME}} Premium Fresh Wort Kit</p>
+<p><strong>Brewed Here. Finished by You.</strong></p>
+</div></section>
+
+<section class="content">
+<h2>Beer Specifications</h2>
+<div class="cards">
+<div class="card {{COLOUR_CLASS}}"><h3>🍺 Style</h3><p>{{STYLE}}</p></div>
+<div class="card {{COLOUR_CLASS}}"><h3>💧 Volume</h3><p>{{VOLUME}}</p></div>
+<div class="card {{COLOUR_CLASS}}"><h3>🍻 ABV</h3><p>{{ABV}}</p></div>
+<div class="card {{COLOUR_CLASS}}"><h3>🌿 IBU</h3><p>{{IBU}}</p></div>
+<div class="card {{COLOUR_CLASS}}"><h3>🧪 Yeast</h3><p>{{YEAST}}</p></div>
+<div class="card {{COLOUR_CLASS}}"><h3>🎨 Colour</h3><p>{{COLOUR}}</p></div>
+</div></section>
+
+<section class="content"><h2>Brewing Timeline</h2>
+<div class="cards">
+<div class="card {{COLOUR_CLASS}}"><h3>Day 0</h3><p>Pitch: {{PITCH_TEMP}}</p></div>
+<div class="card {{COLOUR_CLASS}}"><h3>Ferment</h3><p>{{FERMENT_TEMP}}</p></div>
+<div class="card {{COLOUR_CLASS}}"><h3>Day 4</h3><p>{{HOP1}}</p></div>
+<div class="card {{COLOUR_CLASS}}"><h3>Day 5</h3><p>{{HOP2}}</p></div>
+<div class="card {{COLOUR_CLASS}}"><h3>Day 6</h3><p>{{HOP3}}</p></div>
+<div class="card {{COLOUR_CLASS}}"><h3>Finish</h3><p>{{DIAREST}}</p></div>
+</div></section>
+
+<section class="content"><h2>Fermentation Guide</h2>
+<div class="card {{COLOUR_CLASS}}">
+<ul>
+<li>Pitch at {{PITCH_TEMP}}</li>
+<li>Ferment at {{FERMENT_TEMP}}</li>
+<li>Follow hop schedule.</li>
+<li>Complete {{DIAREST}}</li>
+<li>Package after stable gravity for two days.</li>
+</ul>
+</div></section>
+
+<section class="content"><h2>Packaging</h2>
+<div class="card {{COLOUR_CLASS}}">
+<p>Recommended carbonation: {{CARBONATION}}</p>
+</div></section>
+
+<section class="content"><h2>Troubleshooting</h2>
+<div class="cards">
+<div class="card"><h3>Airlock not bubbling?</h3><p>Check gravity first.</p></div>
+<div class="card"><h3>Fermentation slow?</h3><p>Keep temperature stable.</p></div>
+<div class="card"><h3>Cold crash?</h3><p>After stable gravity.</p></div>
+<div class="card"><h3>Need Help?</h3><p>info@mountaincreekbrewing.com.au</p></div>
+</div></section>
+
+<section class="content"><h2>What To Expect In Your Glass</h2>
+<div class="card {{COLOUR_CLASS}}">
+<p><strong>Appearance:</strong> {{APPEARANCE}}</p>
+<p><strong>Aroma:</strong> {{AROMA}}</p>
+<p><strong>Flavour:</strong> {{FLAVOUR}}</p>
+<p><strong>Mouthfeel:</strong> {{MOUTHFEEL}}</p>
+</div></section>
+
+<section class="content"><h2>Brewmaster's Notes</h2>
+<div class="card {{COLOUR_CLASS}}">
+<p>{{BREWMASTER_NOTES}}</p>
+</div></section>
+
+<section class="content" style="text-align:center">
+<a class="button" href="../reserve.html?beer={{URL_BEER_NAME}}">Reserve This Beer Again</a>
+</section>
+
+<footer><h3>Mountain Creek Brewing Co.</h3><p>Brewed Here. Finished by You.</p></footer>
+
+<script>
+const menuToggle=document.getElementById("mobile-menu");
+const navMenu=document.getElementById("nav-menu");
+menuToggle.addEventListener("click",()=>navMenu.classList.toggle("active"));
+</script>
+</body>
+</html>
