@@ -53,6 +53,15 @@ nav{
 .menu a:hover{
     color:#c89a2b;
 }
+.shop-link{
+    color:#c89a2b !important;
+    font-weight:700 !important;
+}
+
+.shop-link:hover{
+    color:#23432f !important;
+}
+
 
 .menu-toggle{
     display:none;
