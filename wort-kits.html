@@ -1,1 +1,2206 @@
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Premium Fresh Wort Kits | Mountain Creek Brewing Co.</title>
+
+<meta name="description"
+content="Premium fresh wort kits brewed by Mountain Creek Brewing Co. on the Sunshine Coast.">
+
+<link
+href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+
+
+<style>
+
+/* =========================================================
+   FRESH WORT SHOP
+   ========================================================= */
+
+.wort-shop {
+
+    padding: 20px 10% 80px;
+
+    background: #fafaf7;
+
+}
+
+
+/* =========================================================
+   PRODUCT GRID
+   ========================================================= */
+
+.wort-grid {
+
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 30px;
+
+}
+
+
+/* =========================================================
+   PRODUCT CARDS
+   ========================================================= */
+
+.wort-card {
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.08);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
+    border-left: 8px solid #184D47;
+
+}
+
+
+.wort-card:hover {
+
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.14);
+
+}
+
+
+.wort-card h2 {
+
+    color: #23432f;
+
+    margin-top: 0;
+
+    margin-bottom: 5px;
+
+}
+
+
+.wort-card h3 {
+
+    color: #666;
+
+    font-size: 1rem;
+
+    margin-top: 0;
+
+}
+
+
+.wort-card p {
+
+    margin: 12px 0;
+
+}
+
+
+/* =========================================================
+   BEER COLOURS
+   ========================================================= */
+
+.wort-card.lager {
+    border-left-color: #F6D155;
+}
+
+.wort-card.pilsner {
+    border-left-color: #E8C547;
+}
+
+.wort-card.ipa {
+    border-left-color: #E68A00;
+}
+
+.wort-card.pale {
+    border-left-color: #C96E1A;
+}
+
+.wort-card.blackipa {
+    border-left-color: #4A2F24;
+}
+
+.wort-card.stout {
+    border-left-color: #111111;
+}
+
+
+/* =========================================================
+   PRICE
+   ========================================================= */
+
+.wort-price {
+
+    font-size: 1.35rem;
+
+    font-weight: 800;
+
+    color: #184D47;
+
+    margin-top: 20px;
+
+}
+
+
+/* =========================================================
+   ADD TO CART BUTTON
+   ========================================================= */
+
+.add-cart {
+
+    display: block;
+
+    width: 100%;
+
+    margin-top: 22px;
+
+    border: none;
+
+    cursor: pointer;
+
+    background: #184D47;
+
+    color: white;
+
+    padding: 14px 20px;
+
+    border-radius: 6px;
+
+    font-family: inherit;
+
+    font-size: 1rem;
+
+    font-weight: 700;
+
+    transition: .25s ease;
+
+}
+
+
+.add-cart:hover {
+
+    background: #23432f;
+
+    transform: translateY(-2px);
+
+}
+
+
+.add-cart.added {
+
+    background: #c89a2b;
+
+}
+
+
+/* =========================================================
+   CART BAR
+   ========================================================= */
+
+.cart-bar {
+
+    position: sticky;
+
+    top: 10px;
+
+    z-index: 100;
+
+    max-width: 900px;
+
+    margin: 0 auto 35px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    background: #23432f;
+
+    color: white;
+
+    padding: 15px 20px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.15);
+
+}
+
+
+.cart-summary {
+
+    font-weight: 700;
+
+}
+
+
+.cart-open {
+
+    border: none;
+
+    cursor: pointer;
+
+    background: #c89a2b;
+
+    color: white;
+
+    padding: 10px 18px;
+
+    border-radius: 6px;
+
+    font-family: inherit;
+
+    font-weight: 700;
+
+    font-size: .95rem;
+
+}
+
+
+.cart-open:hover {
+
+    opacity: .9;
+
+}
+
+
+/* =========================================================
+   CART OVERLAY
+   ========================================================= */
+
+.cart-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.55);
+
+    z-index: 999;
+
+    display: none;
+
+}
+
+
+.cart-overlay.active {
+
+    display: block;
+
+}
+
+
+/* =========================================================
+   CART PANEL
+   ========================================================= */
+
+.cart-panel {
+
+    position: fixed;
+
+    top: 0;
+
+    right: 0;
+
+    height: 100vh;
+
+    width: min(430px, 92vw);
+
+    background: white;
+
+    z-index: 1000;
+
+    transform: translateX(100%);
+
+    transition: transform .3s ease;
+
+    display: flex;
+
+    flex-direction: column;
+
+    box-shadow:
+        -10px 0 35px rgba(0,0,0,.2);
+
+}
+
+
+.cart-panel.active {
+
+    transform: translateX(0);
+
+}
+
+
+.cart-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 20px;
+
+    background: #23432f;
+
+    color: white;
+
+}
+
+
+.cart-header h2 {
+
+    margin: 0;
+
+}
+
+
+.cart-close {
+
+    border: none;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 2rem;
+
+    cursor: pointer;
+
+    line-height: 1;
+
+}
+
+
+.cart-items {
+
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 20px;
+
+}
+
+
+.empty-cart {
+
+    text-align: center;
+
+    color: #777;
+
+    padding: 40px 10px;
+
+}
+
+
+.cart-item {
+
+    border-bottom: 1px solid #e5e5e5;
+
+    padding-bottom: 18px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.cart-item-name {
+
+    font-weight: 800;
+
+    color: #23432f;
+
+    margin-bottom: 8px;
+
+}
+
+
+.cart-item-price {
+
+    color: #666;
+
+    font-size: .95rem;
+
+}
+
+
+.cart-controls {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-top: 12px;
+
+    gap: 10px;
+
+}
+
+
+.quantity-controls {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+.quantity-button {
+
+    width: 34px;
+
+    height: 34px;
+
+    border: 1px solid #ccc;
+
+    background: #f7f7f7;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    font-size: 1.1rem;
+
+}
+
+
+.quantity-button:hover {
+
+    background: #eaeaea;
+
+}
+
+
+.remove-item {
+
+    border: none;
+
+    background: transparent;
+
+    color: #b33;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: .9rem;
+
+}
+
+
+/* =========================================================
+   CART FOOTER
+   ========================================================= */
+
+.cart-footer {
+
+    border-top: 1px solid #ddd;
+
+    padding: 20px;
+
+    background: #fafafa;
+
+}
+
+
+.cart-total {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    font-size: 1.25rem;
+
+    font-weight: 800;
+
+    color: #23432f;
+
+    margin-bottom: 15px;
+
+}
+
+
+/* =========================================================
+   CHECKOUT BUTTON
+   ========================================================= */
+
+.checkout-button {
+
+    width: 100%;
+
+    border: none;
+
+    cursor: pointer;
+
+    background: #c89a2b;
+
+    color: white;
+
+    padding: 15px;
+
+    border-radius: 6px;
+
+    font-family: inherit;
+
+    font-size: 1.05rem;
+
+    font-weight: 800;
+
+}
+
+
+.checkout-button:hover {
+
+    opacity: .9;
+
+}
+
+
+.checkout-button:disabled {
+
+    opacity: .6;
+
+    cursor: wait;
+
+}
+
+
+.checkout-note {
+
+    text-align: center;
+
+    color: #777;
+
+    font-size: .8rem;
+
+    margin-top: 10px;
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .wort-shop {
+
+        padding-left: 5%;
+
+        padding-right: 5%;
+
+    }
+
+
+    .wort-card {
+
+        padding: 24px;
+
+    }
+
+
+    .cart-bar {
+
+        margin-left: 0;
+
+        margin-right: 0;
+
+        border-radius: 8px;
+
+    }
+
+
+    .cart-summary {
+
+        font-size: .9rem;
+
+    }
+
+
+    .cart-open {
+
+        padding: 9px 13px;
+
+    }
+
+
+    .cart-controls {
+
+        flex-wrap: wrap;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+
+<header>
+
+<nav>
+
+<div class="logo">
+
+<img
+src="images/logo3.png"
+alt="Mountain Creek Brewing Co. Logo">
+
+</div>
+
+
+<div class="menu-toggle" id="mobile-menu">
+
+☰
+
+</div>
+
+
+<div class="menu" id="nav-menu">
+
+<a href="index.html">
+Home
+</a>
+
+<a href="wort-kits.html">
+Premium Fresh Wort Kits
+</a>
+
+<a href="about.html">
+About
+</a>
+
+<a href="reserve.html">
+Reserve
+</a>
+
+<a href="#wort-kits" class="shop-link">
+🛒 Shop Fresh Wort
+</a>
+
+</div>
+
+</nav>
+
+</header>
+
+
+
+<!-- =====================================================
+     HERO
+     ===================================================== -->
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>
+Premium Fresh Wort Kits
+</h1>
+
+<p>
+Commercially brewed on the Sunshine Coast using premium Australian ingredients.
+</p>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     INTRODUCTION
+     ===================================================== -->
+
+<section class="content">
+
+<h2>
+Commercial Brewery Quality
+</h2>
+
+<p>
+
+Every Mountain Creek Brewing Co. fresh wort kit is brewed from grain using
+commercial brewing equipment, premium Australian malt and carefully selected hops.
+
+</p>
+
+<p>
+We do the brewing.
+</p>
+
+<p>
+You choose the yeast, manage fermentation and package the beer your way.
+</p>
+
+</section>
+
+
+
+<!-- =====================================================
+     AVAILABILITY
+     ===================================================== -->
+
+<section class="content">
+
+<p
+style="
+text-align:center;
+font-size:1.1rem;
+font-weight:600;
+color:#184D47;
+margin-bottom:10px;
+">
+
+🍺 All Premium Fresh Wort Kits are brewed fresh in small batches.
+
+</p>
+
+
+<p
+style="
+text-align:center;
+max-width:800px;
+margin:0 auto 25px auto;
+">
+
+Availability may vary depending on our brewing schedule.
+
+Select your wort below and add it to your cart.
+
+</p>
+
+</section>
+
+
+
+<!-- =====================================================
+     SHOP
+     ===================================================== -->
+
+<section
+class="wort-shop"
+id="wort-kits">
+
+
+<!-- =====================================================
+     CART BAR
+     ===================================================== -->
+
+<div class="cart-bar">
+
+<div class="cart-summary">
+
+🛒 Cart:
+<span id="cart-count">
+0
+</span>
+
+item(s)
+
+&nbsp; — &nbsp;
+
+<span id="cart-total">
+$0.00
+</span>
+
+</div>
+
+
+<button
+class="cart-open"
+type="button"
+onclick="openCart()">
+
+View Cart
+
+</button>
+
+</div>
+
+
+
+<div class="wort-grid">
+
+
+
+<!-- =====================================================
+     MOUNTAIN IPA
+     ===================================================== -->
+
+<div class="wort-card ipa">
+
+<h2>
+Mountain IPA
+</h2>
+
+<h3>
+American IPA
+</h3>
+
+<p>
+A bold, hop-forward IPA featuring tropical fruit and citrus character with a clean finish.
+</p>
+
+<p>
+<strong>
+22L Fresh Wort Kit
+</strong>
+</p>
+
+<p>
+<strong>ABV:</strong>
+6.8%
+</p>
+
+<p>
+<strong>IBU:</strong>
+Approx. 65
+</p>
+
+<p>
+<strong>Recommended yeast:</strong>
+US-05
+</p>
+
+<div class="wort-price">
+$60.00
+</div>
+
+
+<button
+class="add-cart"
+type="button"
+onclick="addToCart('mountain_ipa', this)">
+
+Add to Cart
+
+</button>
+
+</div>
+
+
+
+<!-- =====================================================
+     NORTH COAST LAGER
+     ===================================================== -->
+
+<div class="wort-card lager">
+
+<h2>
+North Coast Lager
+</h2>
+
+<h3>
+Australian Lager
+</h3>
+
+<p>
+A crisp, refreshing Australian-style lager inspired by easy-drinking beers enjoyed along our coastline.
+</p>
+
+<p>
+<strong>
+22L Fresh Wort Kit
+</strong>
+</p>
+
+<p>
+<strong>ABV:</strong>
+4.2%
+</p>
+
+<p>
+<strong>IBU:</strong>
+Approx. 16
+</p>
+
+<p>
+<strong>Recommended yeast:</strong>
+W-34/70
+</p>
+
+<div class="wort-price">
+$50.00
+</div>
+
+
+<button
+class="add-cart"
+type="button"
+onclick="addToCart('north_coast_lager', this)">
+
+Add to Cart
+
+</button>
+
+</div>
+
+
+
+<!-- =====================================================
+     IRISH DRY STOUT
+     ===================================================== -->
+
+<div class="wort-card stout">
+
+<h2>
+Irish Dry Stout
+</h2>
+
+<h3>
+Irish Dry Stout
+</h3>
+
+<p>
+Smooth, creamy and highly drinkable with roasted coffee and chocolate notes.
+</p>
+
+<p>
+<strong>
+22L Fresh Wort Kit
+</strong>
+</p>
+
+<p>
+<strong>ABV:</strong>
+4.4%
+</p>
+
+<p>
+<strong>IBU:</strong>
+Approx. 34
+</p>
+
+<p>
+<strong>Recommended yeast:</strong>
+S-04
+</p>
+
+<div class="wort-price">
+$50.00
+</div>
+
+
+<button
+class="add-cart"
+type="button"
+onclick="addToCart('irish_dry_stout', this)">
+
+Add to Cart
+
+</button>
+
+</div>
+
+
+
+<!-- =====================================================
+     CREEK PILSNER
+     ===================================================== -->
+
+<div class="wort-card pilsner">
+
+<h2>
+Creek Pilsner
+</h2>
+
+<h3>
+German Inspired Pilsner
+</h3>
+
+<p>
+Crisp, refreshing and clean with a balanced malt profile and classic hop character.
+</p>
+
+<p>
+<strong>
+22L Fresh Wort Kit
+</strong>
+</p>
+
+<p>
+<strong>ABV:</strong>
+5.0%
+</p>
+
+<p>
+<strong>IBU:</strong>
+Approx. 28
+</p>
+
+<p>
+<strong>Recommended yeast:</strong>
+W-34/70 or S23
+</p>
+
+<div class="wort-price">
+$50.00
+</div>
+
+
+<button
+class="add-cart"
+type="button"
+onclick="addToCart('creek_pilsner', this)">
+
+Add to Cart
+
+</button>
+
+</div>
+
+
+
+<!-- =====================================================
+     GOATS GUTS BLACK IPA
+     ===================================================== -->
+
+<div class="wort-card blackipa">
+
+<h2>
+Goats Guts Black IPA
+</h2>
+
+<h3>
+Dark American IPA
+</h3>
+
+<p>
+Rich roasted malt character balanced with bold American hop flavour and aroma.
+</p>
+
+<p>
+<strong>
+22L Fresh Wort Kit
+</strong>
+</p>
+
+<p>
+<strong>ABV:</strong>
+6.8%
+</p>
+
+<p>
+<strong>IBU:</strong>
+Approx. 70+
+</p>
+
+<p>
+<strong>Recommended yeast:</strong>
+US-05
+</p>
+
+<div class="wort-price">
+$60.00
+</div>
+
+
+<button
+class="add-cart"
+type="button"
+onclick="addToCart('goats_guts_black_ipa', this)">
+
+Add to Cart
+
+</button>
+
+</div>
+
+
+
+<!-- =====================================================
+     COASTLINE PALE ALE
+     ===================================================== -->
+
+<div class="wort-card pale">
+
+<h2>
+Coastline Pale Ale
+</h2>
+
+<h3>
+American Pale Ale
+</h3>
+
+<p>
+A vibrant American Pale Ale showcasing Galaxy and Citra hops with bright citrus and tropical fruit character.
+</p>
+
+<p>
+<strong>
+22L Fresh Wort Kit
+</strong>
+</p>
+
+<p>
+<strong>ABV:</strong>
+5.3%
+</p>
+
+<p>
+<strong>IBU:</strong>
+Approx. 38
+</p>
+
+<p>
+<strong>Recommended yeast:</strong>
+US-05
+</p>
+
+<div class="wort-price">
+$50.00
+</div>
+
+
+<button
+class="add-cart"
+type="button"
+onclick="addToCart('coastline_pale_ale', this)">
+
+Add to Cart
+
+</button>
+
+</div>
+
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     HOW IT WORKS
+     ===================================================== -->
+
+<section class="content">
+
+<h2>
+How It Works
+</h2>
+
+<p>
+
+1. Select one or more fresh wort kits and add them to your cart.
+
+<br><br>
+
+2. Choose your preferred quantities.
+
+<br><br>
+
+3. Click Buy Now and complete your order securely through Square.
+
+<br><br>
+
+4. Collect your fresh wort from Mountain Creek Brewing Co.
+
+<br><br>
+
+5. Add your yeast, manage fermentation and enjoy fresh craft beer finished your way.
+
+</p>
+
+</section>
+
+
+
+<!-- =====================================================
+     CART OVERLAY
+     ===================================================== -->
+
+<div
+class="cart-overlay"
+id="cart-overlay"
+onclick="closeCart()">
+</div>
+
+
+
+<!-- =====================================================
+     CART PANEL
+     ===================================================== -->
+
+<div
+class="cart-panel"
+id="cart-panel"
+aria-label="Shopping cart">
+
+
+<div class="cart-header">
+
+<h2>
+Your Cart
+</h2>
+
+
+<button
+class="cart-close"
+type="button"
+onclick="closeCart()"
+aria-label="Close cart">
+
+&times;
+
+</button>
+
+</div>
+
+
+
+<div
+class="cart-items"
+id="cart-items">
+
+</div>
+
+
+
+<div class="cart-footer">
+
+<div class="cart-total">
+
+<span>
+Total
+</span>
+
+<span id="cart-panel-total">
+$0.00
+</span>
+
+</div>
+
+
+<button
+class="checkout-button"
+id="checkout-button"
+type="button"
+onclick="checkout()">
+
+Buy Now
+
+</button>
+
+
+<div class="checkout-note">
+
+Secure payment is completed through Square.
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer>
+
+<h3>
+Mountain Creek Brewing Co.
+</h3>
+
+<p>
+Independent craft brewery producing premium fresh wort on the Sunshine Coast.
+</p>
+
+<p>
+© 2026 Mountain Creek Brewing Co.
+</p>
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+
+<script>
+
+/* =========================================================
+   MOUNTAIN CREEK BREWING CO.
+   FRESH WORT CART + SECURE SQUARE CHECKOUT
+   ========================================================= */
+
+
+/* =========================================================
+   CLOUDFLARE WORKER
+   ========================================================= */
+
+const CHECKOUT_URL =
+    "https://mountain-creek-checkout.lee111may.workers.dev/create-checkout";
+
+
+/* =========================================================
+   PRODUCTS
+   ========================================================= */
+
+const PRODUCTS = {
+
+    mountain_ipa: {
+        name: "Mountain IPA",
+        price: 60
+    },
+
+    north_coast_lager: {
+        name: "North Coast Lager",
+        price: 50
+    },
+
+    irish_dry_stout: {
+        name: "Irish Dry Stout",
+        price: 50
+    },
+
+    creek_pilsner: {
+        name: "Creek Pilsner",
+        price: 50
+    },
+
+    goats_guts_black_ipa: {
+        name: "Goats Guts Black IPA",
+        price: 60
+    },
+
+    coastline_pale_ale: {
+        name: "Coastline Pale Ale",
+        price: 50
+    }
+
+};
+
+
+/* =========================================================
+   CART
+   ========================================================= */
+
+let cart = [];
+
+
+/* =========================================================
+   LOAD SAVED CART
+   ========================================================= */
+
+try {
+
+    const savedCart =
+        localStorage.getItem(
+            "mcbWortCart"
+        );
+
+
+    if (savedCart) {
+
+        const parsedCart =
+            JSON.parse(savedCart);
+
+
+        if (Array.isArray(parsedCart)) {
+
+            cart = parsedCart;
+
+        }
+
+    }
+
+} catch (error) {
+
+    console.log(
+        "Unable to load saved cart."
+    );
+
+    cart = [];
+
+}
+
+
+/* =========================================================
+   SAVE CART
+   ========================================================= */
+
+function saveCart() {
+
+    try {
+
+        localStorage.setItem(
+            "mcbWortCart",
+            JSON.stringify(cart)
+        );
+
+    } catch (error) {
+
+        console.log(
+            "Unable to save cart."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   ADD TO CART
+   ========================================================= */
+
+function addToCart(
+    productId,
+    button
+) {
+
+
+    if (!PRODUCTS[productId]) {
+
+        return;
+
+    }
+
+
+    const existing =
+        cart.find(
+            item =>
+                item.product === productId
+        );
+
+
+    if (existing) {
+
+        if (
+            existing.quantity < 20
+        ) {
+
+            existing.quantity++;
+
+        }
+
+    } else {
+
+        cart.push({
+
+            product:
+                productId,
+
+            quantity:
+                1
+
+        });
+
+    }
+
+
+    saveCart();
+
+    updateCart();
+
+
+    /* -----------------------------------------------------
+       BUTTON FEEDBACK
+       ----------------------------------------------------- */
+
+    if (button) {
+
+        const originalText =
+            button.textContent;
+
+
+        button.textContent =
+            "✓ Added to Cart";
+
+
+        button.classList.add(
+            "added"
+        );
+
+
+        setTimeout(
+            () => {
+
+                button.textContent =
+                    originalText;
+
+                button.classList.remove(
+                    "added"
+                );
+
+            },
+            1200
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CHANGE QUANTITY
+   ========================================================= */
+
+function changeQuantity(
+    index,
+    amount
+) {
+
+
+    if (!cart[index]) {
+
+        return;
+
+    }
+
+
+    cart[index].quantity +=
+        amount;
+
+
+    if (
+        cart[index].quantity <= 0
+    ) {
+
+        cart.splice(
+            index,
+            1
+        );
+
+    }
+
+
+    if (
+        cart[index] &&
+        cart[index].quantity > 20
+    ) {
+
+        cart[index].quantity = 20;
+
+    }
+
+
+    saveCart();
+
+    updateCart();
+
+}
+
+
+/* =========================================================
+   REMOVE ITEM
+   ========================================================= */
+
+function removeItem(index) {
+
+
+    if (!cart[index]) {
+
+        return;
+
+    }
+
+
+    cart.splice(
+        index,
+        1
+    );
+
+
+    saveCart();
+
+    updateCart();
+
+}
+
+
+/* =========================================================
+   UPDATE CART
+   ========================================================= */
+
+function updateCart() {
+
+
+    const cartItems =
+        document.getElementById(
+            "cart-items"
+        );
+
+
+    const cartCount =
+        document.getElementById(
+            "cart-count"
+        );
+
+
+    const cartTotal =
+        document.getElementById(
+            "cart-total"
+        );
+
+
+    const panelTotal =
+        document.getElementById(
+            "cart-panel-total"
+        );
+
+
+    let totalItems = 0;
+
+    let totalPrice = 0;
+
+
+    /* -----------------------------------------------------
+       REMOVE INVALID CART ITEMS
+       ----------------------------------------------------- */
+
+    cart =
+        cart.filter(
+            item => {
+
+                return (
+                    item &&
+                    PRODUCTS[item.product] &&
+                    Number.isInteger(
+                        item.quantity
+                    ) &&
+                    item.quantity >= 1
+                );
+
+            }
+        );
+
+
+    /* -----------------------------------------------------
+       EMPTY CART
+       ----------------------------------------------------- */
+
+    if (
+        cart.length === 0
+    ) {
+
+        cartItems.innerHTML = `
+
+            <div class="empty-cart">
+
+                Your cart is currently empty.
+
+                <br><br>
+
+                Add some fresh wort
+                to get started.
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* -----------------------------------------------------
+       CART WITH PRODUCTS
+       ----------------------------------------------------- */
+
+    else {
+
+        cartItems.innerHTML = "";
+
+
+        cart.forEach(
+            (item, index) => {
+
+
+                const product =
+                    PRODUCTS[item.product];
+
+
+                const lineTotal =
+                    product.price *
+                    item.quantity;
+
+
+                totalItems +=
+                    item.quantity;
+
+
+                totalPrice +=
+                    lineTotal;
+
+
+                const itemElement =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                itemElement.className =
+                    "cart-item";
+
+
+                itemElement.innerHTML = `
+
+                    <div class="cart-item-name">
+
+                        ${product.name}
+
+                    </div>
+
+
+                    <div class="cart-item-price">
+
+                        $${product.price.toFixed(2)}
+                        each
+
+                    </div>
+
+
+                    <div class="cart-controls">
+
+
+                        <div class="quantity-controls">
+
+                            <button
+                                class="quantity-button"
+                                type="button"
+                                onclick="changeQuantity(${index}, -1)">
+
+                                −
+
+                            </button>
+
+
+                            <strong>
+
+                                ${item.quantity}
+
+                            </strong>
+
+
+                            <button
+                                class="quantity-button"
+                                type="button"
+                                onclick="changeQuantity(${index}, 1)">
+
+                                +
+
+                            </button>
+
+                        </div>
+
+
+                        <strong>
+
+                            $${lineTotal.toFixed(2)}
+
+                        </strong>
+
+
+                        <button
+                            class="remove-item"
+                            type="button"
+                            onclick="removeItem(${index})">
+
+                            Remove
+
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                cartItems.appendChild(
+                    itemElement
+                );
+
+            }
+        );
+
+    }
+
+
+    /* -----------------------------------------------------
+       UPDATE SUMMARY
+       ----------------------------------------------------- */
+
+    cartCount.textContent =
+        totalItems;
+
+
+    cartTotal.textContent =
+        `$${totalPrice.toFixed(2)}`;
+
+
+    panelTotal.textContent =
+        `$${totalPrice.toFixed(2)}`;
+
+
+    /* -----------------------------------------------------
+       CHECKOUT BUTTON
+       ----------------------------------------------------- */
+
+    const checkoutButton =
+        document.getElementById(
+            "checkout-button"
+        );
+
+
+    checkoutButton.disabled =
+        cart.length === 0;
+
+
+    saveCart();
+
+}
+
+
+/* =========================================================
+   OPEN CART
+   ========================================================= */
+
+function openCart() {
+
+
+    updateCart();
+
+
+    document
+        .getElementById(
+            "cart-overlay"
+        )
+        .classList.add(
+            "active"
+        );
+
+
+    document
+        .getElementById(
+            "cart-panel"
+        )
+        .classList.add(
+            "active"
+        );
+
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+/* =========================================================
+   CLOSE CART
+   ========================================================= */
+
+function closeCart() {
+
+
+    document
+        .getElementById(
+            "cart-overlay"
+        )
+        .classList.remove(
+            "active"
+        );
+
+
+    document
+        .getElementById(
+            "cart-panel"
+        )
+        .classList.remove(
+            "active"
+        );
+
+
+    document.body.style.overflow =
+        "";
+
+}
+
+
+/* =========================================================
+   CHECKOUT
+   ========================================================= */
+
+async function checkout() {
+
+
+    if (
+        cart.length === 0
+    ) {
+
+        alert(
+            "Your cart is empty."
+        );
+
+        return;
+
+    }
+
+
+    const checkoutButton =
+        document.getElementById(
+            "checkout-button"
+        );
+
+
+    checkoutButton.disabled =
+        true;
+
+
+    checkoutButton.textContent =
+        "Creating secure checkout...";
+
+
+    try {
+
+
+        /* -------------------------------------------------
+           SEND CART TO CLOUDFLARE
+           -------------------------------------------------
+
+           Only product IDs and quantities
+           are sent.
+
+           Prices are NOT trusted from
+           the browser.
+
+           The Cloudflare Worker determines
+           the actual prices.
+           ------------------------------------------------- */
+
+
+        const response =
+            await fetch(
+                CHECKOUT_URL,
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            cart:
+                                cart
+
+                        })
+
+                }
+            );
+
+
+        let data;
+
+
+        try {
+
+            data =
+                await response.json();
+
+        } catch (error) {
+
+            throw new Error(
+                "Invalid response from checkout service."
+            );
+
+        }
+
+
+        /* -------------------------------------------------
+           CHECK RESPONSE
+           ------------------------------------------------- */
+
+        if (
+            !response.ok
+        ) {
+
+            console.error(
+                "Checkout error:",
+                data
+            );
+
+
+            throw new Error(
+                data.error ||
+                "Unable to create checkout."
+            );
+
+        }
+
+
+        if (
+            !data.success ||
+            !data.checkout_url
+        ) {
+
+            console.error(
+                "Invalid checkout response:",
+                data
+            );
+
+
+            throw new Error(
+                "Square did not return a checkout URL."
+            );
+
+        }
+
+
+        /* -------------------------------------------------
+           SUCCESS
+           -------------------------------------------------
+
+           Clear the cart because Square has
+           successfully created the checkout.
+           ------------------------------------------------- */
+
+        cart = [];
+
+
+        localStorage.removeItem(
+            "mcbWortCart"
+        );
+
+
+        updateCart();
+
+
+        /* -------------------------------------------------
+           SEND CUSTOMER TO SQUARE
+           ------------------------------------------------- */
+
+        window.location.href =
+            data.checkout_url;
+
+
+    } catch (error) {
+
+
+        console.error(
+            "Checkout error:",
+            error
+        );
+
+
+        alert(
+
+            "Sorry, we couldn't start the secure checkout.\n\n" +
+
+            "Please try again. If the problem continues, " +
+
+            "please contact Mountain Creek Brewing Co."
+
+        );
+
+
+        checkoutButton.disabled =
+            false;
+
+
+        checkoutButton.textContent =
+            "Buy Now";
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
+
+const menuToggle =
+    document.getElementById(
+        "mobile-menu"
+    );
+
+
+const navMenu =
+    document.getElementById(
+        "nav-menu"
+    );
+
+
+if (
+    menuToggle &&
+    navMenu
+) {
+
+    menuToggle.addEventListener(
+        "click",
+        () => {
+
+            navMenu.classList.toggle(
+                "active"
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   INITIALISE
+   ========================================================= */
+
+updateCart();
+
+</script>
+
+
+</body>
+
+</html>
