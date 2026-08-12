@@ -1321,29 +1321,1228 @@ Independent craft brewery producing premium fresh wort on the Sunshine Coast.
 </footer>
 
 
-
-<!-- =====================================================
-     MOBILE MENU
-     ===================================================== -->
-
 <script>
 
+/* =========================================================
+   MOUNTAIN CREEK BREWING CO.
+   FRESH WORT SHOPPING CART
+   ========================================================= */
+
+
+/* =========================================================
+   CLOUDFLARE WORKER
+   ========================================================= */
+
+const CHECKOUT_ENDPOINT =
+    "https://mountain-creek-checkout.lee111may.workers.dev/create-checkout";
+
+
+/* =========================================================
+   PRODUCT DEFINITIONS
+   ========================================================= */
+
+const PRODUCTS = {
+
+    mountain_ipa: {
+        name: "Mountain IPA",
+        price: 60
+    },
+
+    north_coast_lager: {
+        name: "North Coast Lager",
+        price: 50
+    },
+
+    irish_dry_stout: {
+        name: "Irish Dry Stout",
+        price: 50
+    },
+
+    creek_pilsner: {
+        name: "Creek Pilsner",
+        price: 50
+    },
+
+    goats_guts_black_ipa: {
+        name: "Goats Guts Black IPA",
+        price: 60
+    },
+
+    coastline_pale_ale: {
+        name: "Coastline Pale Ale",
+        price: 50
+    }
+
+};
+
+
+/* =========================================================
+   CART
+   ========================================================= */
+
+let cart = {};
+
+
+/* =========================================================
+   LOAD CART FROM BROWSER
+   ========================================================= */
+
+try {
+
+    const savedCart =
+        localStorage.getItem(
+            "mountainCreekWortCart"
+        );
+
+    if (savedCart) {
+
+        cart =
+            JSON.parse(savedCart);
+
+    }
+
+} catch (error) {
+
+    console.log(
+        "Unable to load saved cart."
+    );
+
+    cart = {};
+
+}
+
+
+/* =========================================================
+   SAVE CART
+   ========================================================= */
+
+function saveCart() {
+
+    try {
+
+        localStorage.setItem(
+            "mountainCreekWortCart",
+            JSON.stringify(cart)
+        );
+
+    } catch (error) {
+
+        console.log(
+            "Unable to save cart."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FORMAT MONEY
+   ========================================================= */
+
+function formatMoney(amount) {
+
+    return "$" +
+        amount.toFixed(2);
+
+}
+
+
+/* =========================================================
+   GET CART TOTAL
+   ========================================================= */
+
+function getCartTotal() {
+
+    let total = 0;
+
+    Object.keys(cart).forEach(
+        productId => {
+
+            const product =
+                PRODUCTS[productId];
+
+            if (!product) {
+                return;
+            }
+
+            total +=
+                product.price *
+                cart[productId];
+
+        }
+    );
+
+    return total;
+
+}
+
+
+/* =========================================================
+   GET CART ITEM COUNT
+   ========================================================= */
+
+function getCartItemCount() {
+
+    let count = 0;
+
+    Object.keys(cart).forEach(
+        productId => {
+
+            count +=
+                cart[productId];
+
+        }
+    );
+
+    return count;
+
+}
+
+
+/* =========================================================
+   ADD PRODUCT
+   ========================================================= */
+
+function addToCart(productId) {
+
+    if (!PRODUCTS[productId]) {
+        return;
+    }
+
+
+    if (!cart[productId]) {
+
+        cart[productId] = 0;
+
+    }
+
+
+    cart[productId]++;
+
+
+    if (cart[productId] > 20) {
+
+        cart[productId] = 20;
+
+    }
+
+
+    saveCart();
+
+    updateCart();
+
+    openCart();
+
+}
+
+
+/* =========================================================
+   REMOVE ONE
+   ========================================================= */
+
+function decreaseQuantity(productId) {
+
+    if (!cart[productId]) {
+        return;
+    }
+
+
+    cart[productId]--;
+
+
+    if (cart[productId] <= 0) {
+
+        delete cart[productId];
+
+    }
+
+
+    saveCart();
+
+    updateCart();
+
+}
+
+
+/* =========================================================
+   REMOVE PRODUCT
+   ========================================================= */
+
+function removeFromCart(productId) {
+
+    delete cart[productId];
+
+    saveCart();
+
+    updateCart();
+
+}
+
+
+/* =========================================================
+   CREATE CART HTML
+   ========================================================= */
+
+function createCartHTML() {
+
+    if (
+        document.getElementById(
+            "mc-cart"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    /* -----------------------------------------------------
+       CART BAR
+       ----------------------------------------------------- */
+
+    const cartBar =
+        document.createElement(
+            "div"
+        );
+
+    cartBar.id =
+        "mc-cart-bar";
+
+
+    cartBar.innerHTML = `
+
+        <button
+            id="mc-cart-button"
+            type="button">
+
+            🛒 Cart:
+            <span id="mc-cart-count">0</span>
+            item(s)
+            —
+            <span id="mc-cart-total">$0.00</span>
+
+        </button>
+
+    `;
+
+
+    document.body.appendChild(
+        cartBar
+    );
+
+
+    /* -----------------------------------------------------
+       CART DRAWER
+       ----------------------------------------------------- */
+
+    const cartDrawer =
+        document.createElement(
+            "div"
+        );
+
+    cartDrawer.id =
+        "mc-cart";
+
+
+    cartDrawer.innerHTML = `
+
+        <div
+            id="mc-cart-overlay"
+            class="mc-cart-overlay">
+        </div>
+
+        <div
+            class="mc-cart-panel">
+
+            <div
+                class="mc-cart-header">
+
+                <h2>Your Cart</h2>
+
+                <button
+                    id="mc-cart-close"
+                    type="button"
+                    aria-label="Close cart">
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            <div
+                id="mc-cart-items"
+                class="mc-cart-items">
+
+            </div>
+
+
+            <div
+                class="mc-cart-footer">
+
+                <div
+                    class="mc-cart-total-row">
+
+                    <strong>
+                        Total
+                    </strong>
+
+                    <strong
+                        id="mc-cart-footer-total">
+
+                        $0.00
+
+                    </strong>
+
+                </div>
+
+
+                <button
+                    id="mc-checkout"
+                    class="mc-checkout-button"
+                    type="button">
+
+                    Buy Now
+
+                </button>
+
+
+                <p
+                    class="mc-secure-text">
+
+                    Secure checkout powered by Square
+
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        cartDrawer
+    );
+
+
+    /* -----------------------------------------------------
+       CART BUTTON
+       ----------------------------------------------------- */
+
+    document
+        .getElementById(
+            "mc-cart-button"
+        )
+        .addEventListener(
+            "click",
+            openCart
+        );
+
+
+    /* -----------------------------------------------------
+       CLOSE BUTTON
+       ----------------------------------------------------- */
+
+    document
+        .getElementById(
+            "mc-cart-close"
+        )
+        .addEventListener(
+            "click",
+            closeCart
+        );
+
+
+    /* -----------------------------------------------------
+       OVERLAY
+       ----------------------------------------------------- */
+
+    document
+        .getElementById(
+            "mc-cart-overlay"
+        )
+        .addEventListener(
+            "click",
+            closeCart
+        );
+
+
+    /* -----------------------------------------------------
+       CHECKOUT BUTTON
+       ----------------------------------------------------- */
+
+    document
+        .getElementById(
+            "mc-checkout"
+        )
+        .addEventListener(
+            "click",
+            startCheckout
+        );
+
+}
+
+
+/* =========================================================
+   UPDATE CART
+   ========================================================= */
+
+function updateCart() {
+
+    createCartHTML();
+
+
+    const count =
+        getCartItemCount();
+
+    const total =
+        getCartTotal();
+
+
+    /* -----------------------------------------------------
+       CART BAR
+       ----------------------------------------------------- */
+
+    const countElement =
+        document.getElementById(
+            "mc-cart-count"
+        );
+
+    const totalElement =
+        document.getElementById(
+            "mc-cart-total"
+        );
+
+
+    if (countElement) {
+
+        countElement.textContent =
+            count;
+
+    }
+
+
+    if (totalElement) {
+
+        totalElement.textContent =
+            formatMoney(total);
+
+    }
+
+
+    /* -----------------------------------------------------
+       CART ITEMS
+       ----------------------------------------------------- */
+
+    const itemsElement =
+        document.getElementById(
+            "mc-cart-items"
+        );
+
+
+    if (!itemsElement) {
+        return;
+    }
+
+
+    if (count === 0) {
+
+        itemsElement.innerHTML = `
+
+            <div
+                class="mc-empty-cart">
+
+                <div
+                    class="mc-empty-icon">
+
+                    🛒
+
+                </div>
+
+                <h3>
+                    Your cart is empty
+                </h3>
+
+                <p>
+                    Add a fresh wort kit
+                    to get started.
+                </p>
+
+            </div>
+
+        `;
+
+    } else {
+
+        let html = "";
+
+
+        Object.keys(cart).forEach(
+            productId => {
+
+                const product =
+                    PRODUCTS[productId];
+
+                if (!product) {
+                    return;
+                }
+
+
+                const quantity =
+                    cart[productId];
+
+                const itemTotal =
+                    product.price *
+                    quantity;
+
+
+                html += `
+
+                    <div
+                        class="mc-cart-item">
+
+                        <div
+                            class="mc-cart-item-info">
+
+                            <h3>
+                                ${product.name}
+                            </h3>
+
+                            <p>
+                                ${formatMoney(product.price)}
+                                each
+                            </p>
+
+                        </div>
+
+
+                        <div
+                            class="mc-cart-item-controls">
+
+                            <button
+                                type="button"
+                                class="mc-quantity-button"
+                                data-action="decrease"
+                                data-product="${productId}">
+
+                                −
+
+                            </button>
+
+
+                            <span
+                                class="mc-quantity">
+
+                                ${quantity}
+
+                            </span>
+
+
+                            <button
+                                type="button"
+                                class="mc-quantity-button"
+                                data-action="increase"
+                                data-product="${productId}">
+
+                                +
+
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            class="mc-cart-item-price">
+
+                            ${formatMoney(itemTotal)}
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="mc-remove-button"
+                            data-action="remove"
+                            data-product="${productId}">
+
+                            Remove
+
+                        </button>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+
+        itemsElement.innerHTML =
+            html;
+
+
+        /* -------------------------------------------------
+           ADD QUANTITY BUTTON EVENTS
+           ------------------------------------------------- */
+
+        itemsElement
+            .querySelectorAll(
+                '[data-action="increase"]'
+            )
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            const productId =
+                                button.dataset.product;
+
+                            addToCart(
+                                productId
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+        /* -------------------------------------------------
+           DECREASE QUANTITY BUTTON EVENTS
+           ------------------------------------------------- */
+
+        itemsElement
+            .querySelectorAll(
+                '[data-action="decrease"]'
+            )
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            const productId =
+                                button.dataset.product;
+
+                            decreaseQuantity(
+                                productId
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+        /* -------------------------------------------------
+           REMOVE BUTTON EVENTS
+           ------------------------------------------------- */
+
+        itemsElement
+            .querySelectorAll(
+                '[data-action="remove"]'
+            )
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            const productId =
+                                button.dataset.product;
+
+                            removeFromCart(
+                                productId
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* -----------------------------------------------------
+       FOOTER TOTAL
+       ----------------------------------------------------- */
+
+    const footerTotal =
+        document.getElementById(
+            "mc-cart-footer-total"
+        );
+
+
+    if (footerTotal) {
+
+        footerTotal.textContent =
+            formatMoney(total);
+
+    }
+
+
+    /* -----------------------------------------------------
+       CHECKOUT BUTTON STATE
+       ----------------------------------------------------- */
+
+    const checkoutButton =
+        document.getElementById(
+            "mc-checkout"
+        );
+
+
+    if (checkoutButton) {
+
+        checkoutButton.disabled =
+            count === 0;
+
+    }
+
+}
+
+
+/* =========================================================
+   OPEN CART
+   ========================================================= */
+
+function openCart() {
+
+    createCartHTML();
+
+    updateCart();
+
+
+    document
+        .getElementById(
+            "mc-cart"
+        )
+        .classList.add(
+            "open"
+        );
+
+
+    document.body.classList.add(
+        "mc-cart-open"
+    );
+
+}
+
+
+/* =========================================================
+   CLOSE CART
+   ========================================================= */
+
+function closeCart() {
+
+    const cartElement =
+        document.getElementById(
+            "mc-cart"
+        );
+
+
+    if (cartElement) {
+
+        cartElement.classList.remove(
+            "open"
+        );
+
+    }
+
+
+    document.body.classList.remove(
+        "mc-cart-open"
+    );
+
+}
+
+
+/* =========================================================
+   PRODUCT BUTTON SETUP
+   ========================================================= */
+
+function setupProductButtons() {
+
+
+    /*
+     * These correspond to the six card classes
+     * already present in your wort-kits.html.
+     */
+
+    const productMap = {
+
+        ipa:
+            "mountain_ipa",
+
+        lager:
+            "north_coast_lager",
+
+        stout:
+            "irish_dry_stout",
+
+        pilsner:
+            "creek_pilsner",
+
+        blackipa:
+            "goats_guts_black_ipa",
+
+        pale:
+            "coastline_pale_ale"
+
+    };
+
+
+    Object.keys(productMap).forEach(
+        cardClass => {
+
+
+            const productId =
+                productMap[cardClass];
+
+
+            const card =
+                document.querySelector(
+                    `.card.${cardClass}`
+                );
+
+
+            if (!card) {
+                return;
+            }
+
+
+            const button =
+                card.querySelector(
+                    ".button"
+                );
+
+
+            if (!button) {
+                return;
+            }
+
+
+            /*
+             * Stop the old Square link
+             */
+
+            button.removeAttribute(
+                "href"
+            );
+
+
+            button.removeAttribute(
+                "target"
+            );
+
+
+            button.removeAttribute(
+                "rel"
+            );
+
+
+            /*
+             * Store product ID
+             */
+
+            button.dataset.product =
+                productId;
+
+
+            /*
+             * Change button text
+             */
+
+            button.textContent =
+                "Add to Cart";
+
+
+            /*
+             * Button type
+             */
+
+            button.setAttribute(
+                "type",
+                "button"
+            );
+
+
+            /*
+             * Add click event
+             */
+
+            button.addEventListener(
+                "click",
+                function(event) {
+
+                    event.preventDefault();
+
+
+                    addToCart(
+                        productId
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CHECKOUT
+   ========================================================= */
+
+async function startCheckout() {
+
+
+    const cartCount =
+        getCartItemCount();
+
+
+    if (cartCount === 0) {
+
+        alert(
+            "Your cart is empty."
+        );
+
+        return;
+
+    }
+
+
+    const checkoutButton =
+        document.getElementById(
+            "mc-checkout"
+        );
+
+
+    if (!checkoutButton) {
+        return;
+    }
+
+
+    /*
+     * Disable button while checkout
+     * is being created.
+     */
+
+    checkoutButton.disabled =
+        true;
+
+
+    checkoutButton.textContent =
+        "Creating secure checkout...";
+
+
+    /*
+     * Convert our cart object into
+     * the format expected by the Worker.
+     */
+
+    const workerCart =
+        Object.keys(cart)
+            .map(productId => {
+
+                return {
+
+                    product:
+                        productId,
+
+                    quantity:
+                        cart[productId]
+
+                };
+
+            });
+
+
+    try {
+
+
+        /* -------------------------------------------------
+           SEND CART TO CLOUDFLARE WORKER
+           ------------------------------------------------- */
+
+        const response =
+            await fetch(
+                CHECKOUT_ENDPOINT,
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            cart:
+                                workerCart
+
+                        })
+
+                }
+            );
+
+
+        /* -------------------------------------------------
+           READ RESPONSE
+           ------------------------------------------------- */
+
+        let data;
+
+
+        try {
+
+            data =
+                await response.json();
+
+        } catch (error) {
+
+            throw new Error(
+                "Invalid response from checkout service."
+            );
+
+        }
+
+
+        /* -------------------------------------------------
+           CHECK RESPONSE
+           ------------------------------------------------- */
+
+        if (
+            !response.ok ||
+            !data.success ||
+            !data.checkout_url
+        ) {
+
+            console.error(
+                "Checkout error:",
+                data
+            );
+
+
+            throw new Error(
+                data.error ||
+                "Unable to create secure checkout."
+            );
+
+        }
+
+
+        /* -------------------------------------------------
+           SUCCESS
+           ------------------------------------------------- */
+
+        /*
+         * Leave the cart intact in case the
+         * customer returns to the website.
+         *
+         * Square handles the actual payment.
+         */
+
+        window.location.href =
+            data.checkout_url;
+
+
+    } catch (error) {
+
+
+        console.error(
+            "Checkout error:",
+            error
+        );
+
+
+        alert(
+            "Sorry, we couldn't start the secure checkout. " +
+            "Please try again. If the problem continues, " +
+            "please contact Mountain Creek Brewing Co."
+        );
+
+
+        checkoutButton.disabled =
+            false;
+
+
+        checkoutButton.textContent =
+            "Buy Now";
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
+
 const menuToggle =
-document.getElementById("mobile-menu");
+    document.getElementById(
+        "mobile-menu"
+    );
+
 
 const navMenu =
-document.getElementById("nav-menu");
+    document.getElementById(
+        "nav-menu"
+    );
 
 
-menuToggle.addEventListener("click", () => {
+if (
+    menuToggle &&
+    navMenu
+) {
 
-    navMenu.classList.toggle("active");
+    menuToggle.addEventListener(
+        "click",
+        () => {
 
-});
+            navMenu.classList.toggle(
+                "active"
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   INITIALISE SHOP
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        createCartHTML();
+
+        setupProductButtons();
+
+        updateCart();
+
+    }
+);
 
 </script>
-
-
 
 <!-- =====================================================
      SHOPPING CART
