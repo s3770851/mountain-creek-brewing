@@ -2099,25 +2099,52 @@ async function checkout() {
 
 
 
-/* -------------------------------------------------
+
+       /* -------------------------------------------------
    SUCCESS
    -------------------------------------------------
 
    Leave the cart stored while the customer
    completes payment.
 
-   This means that if the customer backs out
-   of Square and returns to the website, their
-   cart is still available.
-   ------------------------------------------------- */
-
-
-/* -------------------------------------------------
-   SEND CUSTOMER TO SQUARE
+   If the customer backs out of Square and
+   returns to the website, their cart remains
+   available.
    ------------------------------------------------- */
 
 window.location.href =
     data.checkout_url;
+
+
+} catch (error) {
+
+    /* -------------------------------------------------
+       CHECKOUT ERROR
+       ------------------------------------------------- */
+
+    console.error(
+        "Checkout error:",
+        error
+    );
+
+
+    alert(
+        "Sorry, we couldn't start the secure checkout. " +
+        "Please try again. If the problem continues, " +
+        "please contact Mountain Creek Brewing Co."
+    );
+
+
+    checkoutButton.disabled =
+        false;
+
+
+    checkoutButton.textContent =
+        "Buy Now";
+
+}
+
+}
 /* =========================================================
    MOBILE MENU
    ========================================================= */
