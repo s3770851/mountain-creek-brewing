@@ -2185,7 +2185,28 @@ if (
    ========================================================= */
 
 updateCart();
+/* =========================================================
+   RESET CHECKOUT BUTTON WHEN RETURNING TO THE WEBSITE
+   ========================================================= */
 
+window.addEventListener("pageshow", function () {
+
+    const checkoutButton =
+        document.getElementById(
+            "checkout-button"
+        );
+
+    if (checkoutButton) {
+
+        checkoutButton.disabled = false;
+
+        checkoutButton.textContent = "Buy Now";
+
+    }
+
+    updateCart();
+
+});
 </script>
 
 
