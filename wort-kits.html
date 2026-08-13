@@ -2098,65 +2098,26 @@ async function checkout() {
         }
 
 
-        /* -------------------------------------------------
-           SUCCESS
-           -------------------------------------------------
 
-           Clear the cart because Square has
-           successfully created the checkout.
-           ------------------------------------------------- */
+/* -------------------------------------------------
+   SUCCESS
+   -------------------------------------------------
 
-        cart = [];
+   Leave the cart stored while the customer
+   completes payment.
 
-
-        localStorage.removeItem(
-            "mcbWortCart"
-        );
+   This means that if the customer backs out
+   of Square and returns to the website, their
+   cart is still available.
+   ------------------------------------------------- */
 
 
-        updateCart();
+/* -------------------------------------------------
+   SEND CUSTOMER TO SQUARE
+   ------------------------------------------------- */
 
-
-        /* -------------------------------------------------
-           SEND CUSTOMER TO SQUARE
-           ------------------------------------------------- */
-
-        window.location.href =
-            data.checkout_url;
-
-
-    } catch (error) {
-
-
-        console.error(
-            "Checkout error:",
-            error
-        );
-
-
-        alert(
-
-            "Sorry, we couldn't start the secure checkout.\n\n" +
-
-            "Please try again. If the problem continues, " +
-
-            "please contact Mountain Creek Brewing Co."
-
-        );
-
-
-        checkoutButton.disabled =
-            false;
-
-
-        checkoutButton.textContent =
-            "Buy Now";
-
-    }
-
-}
-
-
+window.location.href =
+    data.checkout_url;
 /* =========================================================
    MOBILE MENU
    ========================================================= */
